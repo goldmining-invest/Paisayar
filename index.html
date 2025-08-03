@@ -3,109 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paisayar - Loan Application</title>
+    <title>Paisayar - Smart Loan Platform</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4e73df;
-            --secondary-color: #1cc88a;
-            --dark-color: #5a5c69;
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --success-color: #4cc9f0;
+            --warning-color: #f8961e;
+            --danger-color: #f94144;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
         }
+        
         body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #f8f9fc;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7ff;
+            color: #333;
         }
+        
+        /* Auth Container */
         .auth-container {
             max-width: 500px;
-            margin: 100px auto;
-            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
-            border-radius: 10px;
+            margin: 50px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
             overflow: hidden;
+            background: white;
         }
+        
         .auth-header {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
         }
+        
+        .auth-header h3 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
         .auth-body {
-            background: white;
             padding: 30px;
         }
+        
+        /* Buttons */
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
+            font-weight: 500;
+            padding: 10px 20px;
+            transition: all 0.3s;
         }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        /* Dashboard Cards */
         .dashboard-card {
-            border-left: 0.25rem solid var(--primary-color);
-            border-radius: 0.35rem;
-            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 25px;
+            background: white;
         }
-        .loan-status {
-            font-size: 1.2rem;
-            font-weight: bold;
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-        .approved {
-            color: var(--secondary-color);
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            border-radius: 12px 12px 0 0 !important;
         }
-        .not-approved {
-            color: #e74a3b;
+        
+        /* Status Indicators */
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
-        .blacklisted {
-            color: #f6c23e;
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
         }
-        .form-section {
-            display: none;
+        
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
         }
-        .form-section.active {
+        
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-applied {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        /* Profile Picture */
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 0 auto 20px;
             display: block;
         }
-        .user-details-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+        
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
         }
-        .detail-row {
-            display: flex;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
         }
-        .detail-label {
-            font-weight: bold;
-            width: 150px;
+        
+        /* Form Elements */
+        .form-control {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 15px;
         }
-        .detail-value {
-            flex: 1;
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
         }
+        
+        /* Progress Bar */
         .progress-container {
             height: 10px;
             background: #e9ecef;
             border-radius: 5px;
             margin: 20px 0;
         }
+        
         .progress-bar {
             height: 100%;
             border-radius: 5px;
-            background: var(--primary-color);
-            transition: width 0.3s;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.5s ease;
         }
+        
+        /* Tabs */
+        .nav-tabs {
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .nav-tabs .nav-link {
+            color: #6c757d;
+            font-weight: 500;
+            border: none;
+            padding: 12px 20px;
+            margin-right: 5px;
+        }
+        
         .nav-tabs .nav-link.active {
-            font-weight: bold;
             color: var(--primary-color);
+            font-weight: 600;
+            border-bottom: 3px solid var(--primary-color);
+            background: transparent;
         }
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary-color);
-            margin: 0 auto 20px;
-            display: block;
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .auth-container {
+                margin: 20px auto;
+            }
+            
+            .profile-pic {
+                width: 80px;
+                height: 80px;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        /* ID Preview */
+        .id-preview {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+        }
+        
+        .id-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 5px;
+        }
+        
+        /* Reference Cards */
+        .reference-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        /* Transaction History */
+        .transaction-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary-color);
         }
     </style>
 </head>
@@ -113,65 +252,74 @@
     <!-- Authentication Screens -->
     <div id="auth-screens">
         <!-- Registration Form -->
-        <div class="auth-container" id="registration-form">
+        <div class="auth-container fade-in" id="registration-form">
             <div class="auth-header">
-                <h3><i class="fas fa-money-bill-wave"></i> Paisayar</h3>
-                <p>Create your account</p>
+                <h3><i class="fas fa-hand-holding-usd me-2"></i> Paisayar</h3>
+                <p>Create your account to get started</p>
             </div>
             <div class="auth-body">
                 <form id="register-form">
                     <div class="text-center mb-4">
-                        <img src="https://via.placeholder.com/100" alt="Profile" class="profile-pic" id="reg-profile-pic">
+                        <img src="https://ui-avatars.com/api/?name=New+User&background=4361ee&color=fff" alt="Profile" class="profile-pic" id="reg-profile-pic">
                         <input type="file" id="reg-profile-upload" accept="image/*" style="display: none;">
-                        <button type="button" class="btn btn-sm btn-outline-primary" id="reg-upload-btn">Upload Photo</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="reg-upload-btn">
+                            <i class="fas fa-camera me-2"></i>Upload Photo
+                        </button>
                     </div>
                     <div class="mb-3">
                         <label for="reg-name" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="reg-name" required>
+                        <input type="text" class="form-control" id="reg-name" placeholder="Enter your full name" required>
                     </div>
                     <div class="mb-3">
                         <label for="reg-email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="reg-email" required>
+                        <input type="email" class="form-control" id="reg-email" placeholder="Enter your email" required>
                     </div>
                     <div class="mb-3">
                         <label for="reg-phone" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="reg-phone" required>
+                        <input type="tel" class="form-control" id="reg-phone" placeholder="03XX-XXXXXXX" required>
                     </div>
                     <div class="mb-3">
                         <label for="reg-password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="reg-password" required>
+                        <input type="password" class="form-control" id="reg-password" placeholder="Create a password" required>
                     </div>
                     <div class="mb-3">
                         <label for="reg-confirm-password" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="reg-confirm-password" required>
+                        <input type="password" class="form-control" id="reg-confirm-password" placeholder="Confirm your password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                    <button type="submit" class="btn btn-primary w-100 py-2">
+                        <i class="fas fa-user-plus me-2"></i>Register Now
+                    </button>
                     <div class="text-center mt-3">
-                        <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+                        <p class="text-muted">Already have an account? <a href="#" id="show-login" class="text-primary">Login here</a></p>
                     </div>
                 </form>
             </div>
         </div>
 
         <!-- Login Form -->
-        <div class="auth-container" id="login-form" style="display: none;">
+        <div class="auth-container fade-in" id="login-form" style="display: none;">
             <div class="auth-header">
-                <h3><i class="fas fa-money-bill-wave"></i> Paisayar</h3>
-                <p>Login to your account</p>
+                <h3><i class="fas fa-hand-holding-usd me-2"></i> Paisayar</h3>
+                <p>Welcome back! Please login</p>
             </div>
             <div class="auth-body">
                 <form id="login-form-data">
                     <div class="mb-3">
                         <label for="login-email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="login-email" required>
+                        <input type="email" class="form-control" id="login-email" placeholder="Enter your email" required>
                     </div>
                     <div class="mb-3">
                         <label for="login-password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="login-password" required>
+                        <input type="password" class="form-control" id="login-password" placeholder="Enter your password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                    <div class="mb-3 text-end">
+                        <a href="#" class="text-primary small">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </button>
                     <div class="text-center mt-3">
-                        <p>Don't have an account? <a href="#" id="show-register">Register</a></p>
+                        <p class="text-muted">Don't have an account? <a href="#" id="show-register" class="text-primary">Register now</a></p>
                     </div>
                 </form>
             </div>
@@ -180,83 +328,102 @@
 
     <!-- Dashboard -->
     <div id="dashboard" style="display: none;">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#"><i class="fas fa-money-bill-wave"></i> Paisayar</a>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#"><i class="fas fa-hand-holding-usd me-2"></i> Paisayar</a>
                 <div class="dropdown ms-auto">
-                    <button class="btn btn-link text-white dropdown-toggle" type="button" id="user-dropdown" data-bs-toggle="dropdown">
-                        <img src="https://via.placeholder.com/30" alt="Profile" class="rounded-circle me-2" id="navbar-profile-pic" width="30" height="30">
+                    <button class="btn btn-link text-white dropdown-toggle d-flex align-items-center" type="button" id="user-dropdown" data-bs-toggle="dropdown">
+                        <img src="https://ui-avatars.com/api/?name=User&background=fff&color=4361ee" alt="Profile" class="rounded-circle me-2" id="navbar-profile-pic" width="35" height="35">
                         <span id="navbar-username">User</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#" id="profile-dropdown-btn"><i class="fas fa-user me-2"></i> Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" id="logout-dropdown-btn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <div class="container-fluid mt-4">
+        <div class="container py-4">
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <!-- User Profile Card -->
                     <div class="card dashboard-card mb-4" id="profile-card">
                         <div class="card-body text-center">
-                            <img src="https://via.placeholder.com/150" alt="Profile" class="profile-pic mb-3" id="dashboard-profile-pic">
+                            <img src="https://ui-avatars.com/api/?name=User&background=4361ee&color=fff" alt="Profile" class="profile-pic mb-3" id="dashboard-profile-pic">
                             <h4 id="dashboard-username">User Name</h4>
-                            <p class="text-muted" id="dashboard-email">user@example.com</p>
+                            <p class="text-muted mb-4" id="dashboard-email">user@example.com</p>
                             
-                            <div class="loan-status mb-3" id="loan-status-text">Status: Not Applied</div>
-                            <div id="blacklist-message" style="display: none;" class="loan-status blacklisted mb-3">Your account has been blacklisted</div>
+                            <div class="d-flex justify-content-center align-items-center mb-3">
+                                <span class="status-badge me-2" id="loan-status-text">Not Applied</span>
+                                <span class="status-badge d-none" id="blacklist-message">Blacklisted</span>
+                            </div>
                             
                             <div class="progress-container">
                                 <div class="progress-bar" id="application-progress" style="width: 0%"></div>
                             </div>
                             
                             <button class="btn btn-primary btn-lg mt-3" id="get-loan-btn" style="display: none;">
-                                <i class="fas fa-hand-holding-usd me-2"></i> Get Loan
+                                <i class="fas fa-hand-holding-usd me-2"></i> Apply for Loan
                             </button>
                         </div>
                     </div>
 
                     <!-- Application Status -->
                     <div class="card dashboard-card mb-4" id="application-status" style="display: none;">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Application Status</h5>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">Application Status</h5>
                             <div id="status-content">
                                 <!-- Dynamic content will be loaded here -->
                             </div>
                         </div>
                     </div>
 
+                    <!-- Transaction History -->
+                    <div class="card dashboard-card mb-4" id="transaction-history" style="display: none;">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-receipt me-2"></i>Transaction History</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="transaction-content">
+                                <!-- Transaction details will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- User Details -->
                     <div class="card dashboard-card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i>Your Details</h5>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">Your Details</h5>
-                            <div class="user-details-card mt-3">
-                                <div class="detail-row">
-                                    <div class="detail-label">Full Name:</div>
-                                    <div class="detail-value" id="detail-full-name"></div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Full Name</label>
+                                    <div class="fw-bold" id="detail-full-name">-</div>
                                 </div>
-                                <div class="detail-row">
-                                    <div class="detail-label">Email:</div>
-                                    <div class="detail-value" id="detail-email"></div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Email</label>
+                                    <div class="fw-bold" id="detail-email">-</div>
                                 </div>
-                                <div class="detail-row">
-                                    <div class="detail-label">Phone:</div>
-                                    <div class="detail-value" id="detail-phone"></div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Phone</label>
+                                    <div class="fw-bold" id="detail-phone">-</div>
                                 </div>
-                                <div class="detail-row">
-                                    <div class="detail-label">Address:</div>
-                                    <div class="detail-value" id="detail-address"></div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Address</label>
+                                    <div class="fw-bold" id="detail-address">-</div>
                                 </div>
-                                <div class="detail-row">
-                                    <div class="detail-label">Loan Amount:</div>
-                                    <div class="detail-value" id="detail-loan-amount"></div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Loan Amount</label>
+                                    <div class="fw-bold" id="detail-loan-amount">-</div>
                                 </div>
-                                <div class="detail-row">
-                                    <div class="detail-label">Application Date:</div>
-                                    <div class="detail-value" id="detail-app-date"></div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Application Date</label>
+                                    <div class="fw-bold" id="detail-app-date">-</div>
                                 </div>
                             </div>
                         </div>
@@ -264,21 +431,30 @@
 
                     <!-- Loan Application Form -->
                     <div class="card dashboard-card mb-4" id="loan-application-form" style="display: none;">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Loan Application</h5>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">Apply for Loan</h5>
-                            
                             <ul class="nav nav-tabs mb-4" id="formTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">Personal</button>
+                                    <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">
+                                        <i class="fas fa-user me-2"></i>Personal
+                                    </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="id-tab" data-bs-toggle="tab" data-bs-target="#id-upload" type="button" role="tab" disabled>ID Cards</button>
+                                    <button class="nav-link" id="id-tab" data-bs-toggle="tab" data-bs-target="#id-upload" type="button" role="tab" disabled>
+                                        <i class="fas fa-id-card me-2"></i>ID Cards
+                                    </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="references-tab" data-bs-toggle="tab" data-bs-target="#references" type="button" role="tab" disabled>References</button>
+                                    <button class="nav-link" id="references-tab" data-bs-toggle="tab" data-bs-target="#references" type="button" role="tab" disabled>
+                                        <i class="fas fa-users me-2"></i>References
+                                    </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" disabled>Payment</button>
+                                    <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" disabled>
+                                        <i class="fas fa-money-bill-wave me-2"></i>Payment
+                                    </button>
                                 </li>
                             </ul>
                             
@@ -303,84 +479,123 @@
                                             <textarea class="form-control" id="address" rows="3" required></textarea>
                                         </div>
                                         <div class="text-end">
-                                            <button type="button" class="btn btn-primary next-section" data-next="id-tab">Next</button>
+                                            <button type="button" class="btn btn-primary next-section" data-next="id-tab">
+                                                Next <i class="fas fa-arrow-right ms-2"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     
                                     <!-- ID Upload Section -->
                                     <div class="tab-pane fade" id="id-upload" role="tabpanel">
-                                        <div class="mb-3">
-                                            <label class="form-label">ID Card Front</label>
+                                        <div class="mb-4">
+                                            <label class="form-label">CNIC/NICOP Front</label>
+                                            <div class="id-preview" id="id-front-preview">
+                                                <i class="fas fa-id-card fa-3x text-muted mb-2"></i>
+                                                <p class="text-muted">Upload front side of your ID card</p>
+                                            </div>
                                             <input type="file" class="form-control" id="id-front" accept="image/*" required>
-                                            <div class="mt-2" id="id-front-preview"></div>
                                         </div>
                                         
-                                        <div class="mb-3">
-                                            <label class="form-label">ID Card Back</label>
+                                        <div class="mb-4">
+                                            <label class="form-label">CNIC/NICOP Back</label>
+                                            <div class="id-preview" id="id-back-preview">
+                                                <i class="fas fa-id-card fa-3x text-muted mb-2"></i>
+                                                <p class="text-muted">Upload back side of your ID card</p>
+                                            </div>
                                             <input type="file" class="form-control" id="id-back" accept="image/*" required>
-                                            <div class="mt-2" id="id-back-preview"></div>
                                         </div>
                                         <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-secondary prev-section" data-prev="personal-tab">Previous</button>
-                                            <button type="button" class="btn btn-primary next-section" data-next="references-tab">Next</button>
+                                            <button type="button" class="btn btn-outline-secondary prev-section" data-prev="personal-tab">
+                                                <i class="fas fa-arrow-left me-2"></i>Previous
+                                            </button>
+                                            <button type="button" class="btn btn-primary next-section" data-next="references-tab">
+                                                Next <i class="fas fa-arrow-right ms-2"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     
                                     <!-- References Section -->
                                     <div class="tab-pane fade" id="references" role="tabpanel">
-                                        <h6>References</h6>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="ref1-name" class="form-label">Reference 1 Name</label>
-                                                <input type="text" class="form-control" id="ref1-name" required>
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="ref1-phone" class="form-label">Reference 1 Phone</label>
-                                                <input type="tel" class="form-control" id="ref1-phone" required>
+                                        <h6 class="mb-4"><i class="fas fa-users me-2"></i>References</h6>
+                                        
+                                        <div class="reference-card">
+                                            <h6>Reference 1</h6>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="ref1-name" class="form-label">Name</label>
+                                                    <input type="text" class="form-control" id="ref1-name" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="ref1-phone" class="form-label">Phone</label>
+                                                    <input type="tel" class="form-control" id="ref1-phone" required>
+                                                </div>
                                             </div>
                                         </div>
                                         
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="ref2-name" class="form-label">Reference 2 Name</label>
-                                                <input type="text" class="form-control" id="ref2-name" required>
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="ref2-phone" class="form-label">Reference 2 Phone</label>
-                                                <input type="tel" class="form-control" id="ref2-phone" required>
+                                        <div class="reference-card">
+                                            <h6>Reference 2</h6>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="ref2-name" class="form-label">Name</label>
+                                                    <input type="text" class="form-control" id="ref2-name" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="ref2-phone" class="form-label">Phone</label>
+                                                    <input type="tel" class="form-control" id="ref2-phone" required>
+                                                </div>
                                             </div>
                                         </div>
                                         
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="ref3-name" class="form-label">Reference 3 Name</label>
-                                                <input type="text" class="form-control" id="ref3-name" required>
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="ref3-phone" class="form-label">Reference 3 Phone</label>
-                                                <input type="tel" class="form-control" id="ref3-phone" required>
+                                        <div class="reference-card">
+                                            <h6>Reference 3</h6>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="ref3-name" class="form-label">Name</label>
+                                                    <input type="text" class="form-control" id="ref3-name" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="ref3-phone" class="form-label">Phone</label>
+                                                    <input type="tel" class="form-control" id="ref3-phone" required>
+                                                </div>
                                             </div>
                                         </div>
+                                        
                                         <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-secondary prev-section" data-prev="id-tab">Previous</button>
-                                            <button type="button" class="btn btn-primary next-section" data-next="payment-tab">Next</button>
+                                            <button type="button" class="btn btn-outline-secondary prev-section" data-prev="id-tab">
+                                                <i class="fas fa-arrow-left me-2"></i>Previous
+                                            </button>
+                                            <button type="button" class="btn btn-primary next-section" data-next="payment-tab">
+                                                Next <i class="fas fa-arrow-right ms-2"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     
                                     <!-- Payment Section -->
                                     <div class="tab-pane fade" id="payment" role="tabpanel">
-                                        <div class="alert alert-info">
-                                            <p><strong>Loan Fee:</strong> Rs. 5,000</p>
-                                            <p>Please send the fee to JazzCash number: <strong>03250416566</strong></p>
-                                            <p>After payment, enter the transaction ID below:</p>
-                                            <div class="mb-3">
-                                                <label for="trx-id" class="form-label">Transaction ID</label>
-                                                <input type="text" class="form-control" id="trx-id" required>
-                                            </div>
+                                        <div class="alert alert-primary">
+                                            <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Application Fee</h5>
+                                            <p>To process your loan application, a non-refundable fee of <strong>Rs. 5,000</strong> is required.</p>
+                                            <hr>
+                                            <p class="mb-1"><strong>Payment Instructions:</strong></p>
+                                            <ol>
+                                                <li>Send Rs. 5,000 to JazzCash: <strong>03250416566</strong></li>
+                                                <li>After payment, enter the transaction ID below</li>
+                                                <li>Submit your application</li>
+                                            </ol>
                                         </div>
+                                        
+                                        <div class="mb-4">
+                                            <label for="trx-id" class="form-label">Transaction ID</label>
+                                            <input type="text" class="form-control" id="trx-id" placeholder="Enter your JazzCash transaction ID" required>
+                                        </div>
+                                        
                                         <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-secondary prev-section" data-prev="references-tab">Previous</button>
-                                            <button type="submit" class="btn btn-success">Submit Application</button>
+                                            <button type="button" class="btn btn-outline-secondary prev-section" data-prev="references-tab">
+                                                <i class="fas fa-arrow-left me-2"></i>Previous
+                                            </button>
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fas fa-paper-plane me-2"></i>Submit Application
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -453,6 +668,8 @@
         const loanStatusText = document.getElementById('loan-status-text');
         const blacklistMessage = document.getElementById('blacklist-message');
         const applicationProgress = document.getElementById('application-progress');
+        const transactionHistory = document.getElementById('transaction-history');
+        const transactionContent = document.getElementById('transaction-content');
         
         // User detail elements
         const detailFullName = document.getElementById('detail-full-name');
@@ -464,7 +681,7 @@
         
         // Current user data
         let currentUser = null;
-        let profilePictureUrl = 'https://via.placeholder.com/150';
+        let profilePictureUrl = 'https://ui-avatars.com/api/?name=User&background=4361ee&color=fff';
         
         // Show login/register forms
         showLogin.addEventListener('click', (e) => {
@@ -549,7 +766,7 @@
                             name: name,
                             email: email,
                             phone: phone,
-                            profilePicture: 'https://via.placeholder.com/150',
+                            profilePicture: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=4361ee&color=fff',
                             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                             isBlacklisted: false,
                             loanApproved: false,
@@ -563,7 +780,7 @@
                     registrationForm.style.display = 'none';
                     loginForm.style.display = 'block';
                     registerForm.reset();
-                    regProfilePic.src = 'https://via.placeholder.com/100';
+                    regProfilePic.src = 'https://ui-avatars.com/api/?name=New+User&background=4361ee&color=fff';
                 })
                 .catch((error) => {
                     alert('Error: ' + error.message);
@@ -604,6 +821,11 @@
                             profilePictureUrl = userData.profilePicture;
                             navbarProfilePic.src = profilePictureUrl;
                             dashboardProfilePic.src = profilePictureUrl;
+                        } else {
+                            // Generate avatar if no profile picture
+                            const avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(userData.name) + '&background=4361ee&color=fff';
+                            navbarProfilePic.src = avatarUrl;
+                            dashboardProfilePic.src = avatarUrl;
                         }
                         
                         // Update user info
@@ -628,23 +850,43 @@
                         // Check loan status
                         if (userData.loanApplied) {
                             if (userData.loanApproved) {
-                                loanStatusText.innerHTML = 'Status: <span class="approved">Approved</span>';
+                                loanStatusText.innerHTML = '<span class="status-approved">Approved</span>';
                                 getLoanBtn.style.display = 'none';
+                                applicationStatus.style.display = 'block';
+                                statusContent.innerHTML = `
+                                    <div class="alert alert-success">
+                                        <h5><i class="fas fa-check-circle me-2"></i> Loan Approved</h5>
+                                        <p>Congratulations! Your loan of <strong>Rs. ${userData.loanAmount.toLocaleString()}</strong> has been approved.</p>
+                                    </div>
+                                `;
                             } else if (userData.isBlacklisted) {
-                                loanStatusText.innerHTML = 'Status: <span class="blacklisted">Blacklisted</span>';
+                                loanStatusText.innerHTML = '<span class="status-rejected">Blacklisted</span>';
                                 blacklistMessage.style.display = 'block';
                                 getLoanBtn.style.display = 'none';
+                                applicationStatus.style.display = 'block';
+                                statusContent.innerHTML = `
+                                    <div class="alert alert-danger">
+                                        <h5><i class="fas fa-times-circle me-2"></i> Application Rejected</h5>
+                                        <p>Your loan application has been rejected and your account has been blacklisted.</p>
+                                    </div>
+                                `;
                             } else {
-                                loanStatusText.innerHTML = 'Status: <span class="not-approved">Processing</span>';
+                                loanStatusText.innerHTML = '<span class="status-applied">Applied</span>';
                                 getLoanBtn.style.display = 'none';
                                 applicationStatus.style.display = 'block';
                                 
-                                // Show countdown to blacklist
+                                // Show countdown to blacklist (24 hours)
                                 showCountdown(userData.loanAppliedAt.toDate());
                             }
                         } else {
-                            loanStatusText.textContent = 'Status: Not Applied';
+                            loanStatusText.textContent = 'Not Applied';
                             getLoanBtn.style.display = 'block';
+                            applicationStatus.style.display = 'none';
+                        }
+                        
+                        // Load transaction history if application exists
+                        if (userData.loanApplied) {
+                            loadTransactionHistory(userData.uid);
                         }
                         
                         // Show dashboard
@@ -660,6 +902,47 @@
                     submitBtn.disabled = false;
                 });
         });
+        
+        // Load transaction history
+        function loadTransactionHistory(userId) {
+            db.collection('loanApplications')
+                .where('userId', '==', userId)
+                .orderBy('appliedAt', 'desc')
+                .limit(1)
+                .get()
+                .then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const application = querySnapshot.docs[0].data();
+                        transactionHistory.style.display = 'block';
+                        
+                        transactionContent.innerHTML = `
+                            <div class="transaction-card">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Transaction ID</p>
+                                        <p class="fw-bold">${application.trxId || 'N/A'}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Amount</p>
+                                        <p class="fw-bold">Rs. ${application.feeAmount.toLocaleString()}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Payment Method</p>
+                                        <p class="fw-bold">JazzCash (${application.jazzCashNumber})</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Date</p>
+                                        <p class="fw-bold">${application.appliedAt.toDate().toLocaleString()}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error loading transaction history:', error);
+                });
+        }
         
         // Logout user
         logoutDropdownBtn.addEventListener('click', (e) => {
@@ -677,6 +960,7 @@
                     registrationForm.style.display = 'block';
                     loanApplicationForm.style.display = 'none';
                     applicationStatus.style.display = 'none';
+                    transactionHistory.style.display = 'none';
                     blacklistMessage.style.display = 'none';
                     getLoanBtn.style.display = 'none';
                     
@@ -686,8 +970,8 @@
                     loanForm.reset();
                     
                     // Reset profile pictures
-                    navbarProfilePic.src = 'https://via.placeholder.com/30';
-                    dashboardProfilePic.src = 'https://via.placeholder.com/150';
+                    navbarProfilePic.src = 'https://ui-avatars.com/api/?name=User&background=fff&color=4361ee';
+                    dashboardProfilePic.src = 'https://ui-avatars.com/api/?name=User&background=4361ee&color=fff';
                 })
                 .catch((error) => {
                     alert('Error signing out: ' + error.message);
@@ -705,6 +989,7 @@
         getLoanBtn.addEventListener('click', () => {
             loanApplicationForm.style.display = 'block';
             applicationStatus.style.display = 'none';
+            transactionHistory.style.display = 'none';
             
             // Pre-fill user data
             if (currentUser) {
@@ -797,7 +1082,10 @@
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     document.getElementById('id-front-preview').innerHTML = `
-                        <img src="${event.target.result}" class="img-thumbnail" style="max-height: 150px;">
+                        <img src="${event.target.result}" class="img-fluid rounded">
+                        <button class="btn btn-sm btn-outline-danger mt-2" onclick="document.getElementById('id-front').value='';this.parentElement.innerHTML='<i class=\'fas fa-id-card fa-3x text-muted mb-2\'></i><p class=\'text-muted\'>Upload front side of your ID card</p>'">
+                            <i class="fas fa-times me-1"></i>Remove
+                        </button>
                     `;
                 };
                 reader.readAsDataURL(file);
@@ -810,7 +1098,10 @@
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     document.getElementById('id-back-preview').innerHTML = `
-                        <img src="${event.target.result}" class="img-thumbnail" style="max-height: 150px;">
+                        <img src="${event.target.result}" class="img-fluid rounded">
+                        <button class="btn btn-sm btn-outline-danger mt-2" onclick="document.getElementById('id-back').value='';this.parentElement.innerHTML='<i class=\'fas fa-id-card fa-3x text-muted mb-2\'></i><p class=\'text-muted\'>Upload back side of your ID card</p>'">
+                            <i class="fas fa-times me-1"></i>Remove
+                        </button>
                     `;
                 };
                 reader.readAsDataURL(file);
@@ -893,28 +1184,51 @@
                 // Hide form and show status
                 loanApplicationForm.style.display = 'none';
                 applicationStatus.style.display = 'block';
+                transactionHistory.style.display = 'block';
                 getLoanBtn.style.display = 'none';
-                loanStatusText.innerHTML = 'Status: <span class="not-approved">Processing</span>';
+                loanStatusText.innerHTML = '<span class="status-applied">Applied</span>';
+                
+                // Show immediate status
+                statusContent.innerHTML = `
+                    <div class="alert alert-info">
+                        <h5><i class="fas fa-check-circle me-2"></i> Application Submitted</h5>
+                        <p>Your loan application for <strong>Rs. 50,000</strong> has been successfully submitted.</p>
+                        <p>Transaction ID: <strong>${trxId}</strong></p>
+                        <p>We will process your application within 24 hours.</p>
+                    </div>
+                `;
                 
                 // Update user details
                 detailAddress.textContent = address;
                 detailLoanAmount.textContent = 'Rs. 50,000';
                 detailAppDate.textContent = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString();
                 
+                // Show transaction history
+                loadTransactionHistory(userId);
+                
                 // Start countdown to blacklist (24 hours)
                 showCountdown(new Date());
                 
                 // Reset form
                 loanForm.reset();
-                document.getElementById('id-front-preview').innerHTML = '';
-                document.getElementById('id-back-preview').innerHTML = '';
+                document.getElementById('id-front-preview').innerHTML = '<i class="fas fa-id-card fa-3x text-muted mb-2"></i><p class="text-muted">Upload front side of your ID card</p>';
+                document.getElementById('id-back-preview').innerHTML = '<i class="fas fa-id-card fa-3x text-muted mb-2"></i><p class="text-muted">Upload back side of your ID card</p>';
+                
+                // Reset tabs
+                document.getElementById('personal-tab').click();
+                document.getElementById('id-tab').setAttribute('disabled', 'true');
+                document.getElementById('references-tab').setAttribute('disabled', 'true');
+                document.getElementById('payment-tab').setAttribute('disabled', 'true');
             })
             .catch((error) => {
                 statusContent.innerHTML = `
                     <div class="alert alert-danger">
-                        Error submitting application: ${error.message}
+                        <h5><i class="fas fa-exclamation-circle me-2"></i>Error</h5>
+                        <p>Error submitting application: ${error.message}</p>
+                        <button class="btn btn-primary mt-2" onclick="window.location.reload()">
+                            <i class="fas fa-sync-alt me-2"></i>Try Again
+                        </button>
                     </div>
-                    <button class="btn btn-primary mt-2" onclick="window.location.reload()">Try Again</button>
                 `;
             })
             .finally(() => {
@@ -940,12 +1254,12 @@
                 if (diff <= 0) {
                     statusContent.innerHTML = `
                         <div class="alert alert-warning">
-                            <h5><i class="fas fa-exclamation-triangle"></i> Processing Complete</h5>
+                            <h5><i class="fas fa-exclamation-triangle me-2"></i> Processing Complete</h5>
                             <p>Your application has been processed. Unfortunately, your loan was not approved and your account has been blacklisted.</p>
                         </div>
                     `;
                     
-                    loanStatusText.innerHTML = 'Status: <span class="blacklisted">Blacklisted</span>';
+                    loanStatusText.innerHTML = '<span class="status-rejected">Blacklisted</span>';
                     blacklistMessage.style.display = 'block';
                     
                     // Update user status to blacklisted
@@ -964,9 +1278,22 @@
                 
                 statusContent.innerHTML = `
                     <div class="alert alert-info">
-                        <h5><i class="fas fa-clock"></i> Application Processing</h5>
-                        <p>Your application for Rs. 50,000 loan is being processed.</p>
-                        <p>Status will be updated in: <strong>${hours}h ${minutes}m ${seconds}s</strong></p>
+                        <h5><i class="fas fa-clock me-2"></i> Application Processing</h5>
+                        <p>Your application for <strong>Rs. 50,000</strong> loan is being processed.</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <div class="me-3">
+                                <div class="fs-2 fw-bold">${hours}</div>
+                                <div class="text-muted small">Hours</div>
+                            </div>
+                            <div class="me-3">
+                                <div class="fs-2 fw-bold">${minutes}</div>
+                                <div class="text-muted small">Minutes</div>
+                            </div>
+                            <div>
+                                <div class="fs-2 fw-bold">${seconds}</div>
+                                <div class="text-muted small">Seconds</div>
+                            </div>
+                        </div>
                     </div>
                 `;
                 
