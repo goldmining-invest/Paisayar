@@ -3,248 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paisayar - Smart Loan Platform</title>
+    <title>Paisayar - Loan Application</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3a0ca3;
-            --success-color: #4cc9f0;
-            --warning-color: #f8961e;
-            --danger-color: #f94144;
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
+            --primary-color: #4e73df;
+            --secondary-color: #1cc88a;
+            --dark-color: #5a5c69;
         }
-        
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f7ff;
-            color: #333;
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fc;
         }
-        
-        /* Auth Container */
         .auth-container {
             max-width: 500px;
-            margin: 50px auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
+            margin: 100px auto;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            border-radius: 10px;
             overflow: hidden;
-            background: white;
         }
-        
         .auth-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: var(--primary-color);
             color: white;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
         }
-        
-        .auth-header h3 {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
         .auth-body {
+            background: white;
             padding: 30px;
         }
-        
-        /* Buttons */
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
-            font-weight: 500;
-            padding: 10px 20px;
-            transition: all 0.3s;
         }
-        
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-        
-        /* Dashboard Cards */
         .dashboard-card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            margin-bottom: 25px;
-            background: white;
+            border-left: 0.25rem solid var(--primary-color);
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
         }
-        
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        .loan-status {
+            font-size: 1.2rem;
+            font-weight: bold;
         }
-        
-        .card-header {
-            background-color: white;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            font-weight: 600;
-            border-radius: 12px 12px 0 0 !important;
+        .approved {
+            color: var(--secondary-color);
         }
-        
-        /* Status Indicators */
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
+        .not-approved {
+            color: #e74a3b;
         }
-        
-        .status-pending {
-            background-color: #fff3cd;
-            color: #856404;
+        .blacklisted {
+            color: #f6c23e;
         }
-        
-        .status-approved {
-            background-color: #d4edda;
-            color: #155724;
+        .processing {
+            color: #36b9cc;
         }
-        
-        .status-rejected {
-            background-color: #f8d7da;
-            color: #721c24;
+        .form-section {
+            display: none;
         }
-        
-        .status-applied {
-            background-color: #cce5ff;
-            color: #004085;
-        }
-        
-        /* Profile Picture */
-        .profile-pic {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin: 0 auto 20px;
+        .form-section.active {
             display: block;
         }
-        
-        /* Navigation */
-        .navbar {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 15px 0;
+        .user-details-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
         }
-        
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
+        .detail-row {
+            display: flex;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
         }
-        
-        /* Form Elements */
-        .form-control {
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-            margin-bottom: 15px;
+        .detail-label {
+            font-weight: bold;
+            width: 150px;
         }
-        
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        .detail-value {
+            flex: 1;
         }
-        
-        /* Progress Bar */
         .progress-container {
             height: 10px;
             background: #e9ecef;
             border-radius: 5px;
             margin: 20px 0;
         }
-        
         .progress-bar {
             height: 100%;
             border-radius: 5px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            transition: width 0.5s ease;
+            background: var(--primary-color);
+            transition: width 0.3s;
         }
-        
-        /* Tabs */
-        .nav-tabs {
-            border-bottom: 2px solid #e9ecef;
-        }
-        
-        .nav-tabs .nav-link {
-            color: #6c757d;
-            font-weight: 500;
-            border: none;
-            padding: 12px 20px;
-            margin-right: 5px;
-        }
-        
         .nav-tabs .nav-link.active {
+            font-weight: bold;
             color: var(--primary-color);
-            font-weight: 600;
-            border-bottom: 3px solid var(--primary-color);
-            background: transparent;
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .auth-container {
-                margin: 20px auto;
-            }
-            
-            .profile-pic {
-                width: 80px;
-                height: 80px;
-            }
-        }
-        
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        
-        /* ID Preview */
-        .id-preview {
-            border: 2px dashed #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 15px;
-            background: #f9f9f9;
-        }
-        
-        .id-preview img {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 5px;
-        }
-        
-        /* Reference Cards */
-        .reference-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--primary-color);
-        }
-        
-        /* Transaction History */
-        .transaction-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border-left: 4px solid var(--primary-color);
         }
     </style>
 </head>
@@ -252,74 +107,60 @@
     <!-- Authentication Screens -->
     <div id="auth-screens">
         <!-- Registration Form -->
-        <div class="auth-container fade-in" id="registration-form">
+        <div class="auth-container" id="registration-form">
             <div class="auth-header">
-                <h3><i class="fas fa-hand-holding-usd me-2"></i> Paisayar</h3>
-                <p>Create your account to get started</p>
+                <h3><i class="fas fa-money-bill-wave"></i> Paisayar</h3>
+                <p>Create your account</p>
             </div>
             <div class="auth-body">
                 <form id="register-form">
-                    <div class="text-center mb-4">
-                        <img src="https://ui-avatars.com/api/?name=New+User&background=4361ee&color=fff" alt="Profile" class="profile-pic" id="reg-profile-pic">
-                        <input type="file" id="reg-profile-upload" accept="image/*" style="display: none;">
-                        <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="reg-upload-btn">
-                            <i class="fas fa-camera me-2"></i>Upload Photo
-                        </button>
-                    </div>
                     <div class="mb-3">
                         <label for="reg-name" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="reg-name" placeholder="Enter your full name" required>
+                        <input type="text" class="form-control" id="reg-name" required>
                     </div>
                     <div class="mb-3">
                         <label for="reg-email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="reg-email" placeholder="Enter your email" required>
+                        <input type="email" class="form-control" id="reg-email" required>
                     </div>
                     <div class="mb-3">
                         <label for="reg-phone" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="reg-phone" placeholder="03XX-XXXXXXX" required>
+                        <input type="tel" class="form-control" id="reg-phone" required>
                     </div>
                     <div class="mb-3">
                         <label for="reg-password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="reg-password" placeholder="Create a password" required>
+                        <input type="password" class="form-control" id="reg-password" required>
                     </div>
                     <div class="mb-3">
                         <label for="reg-confirm-password" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="reg-confirm-password" placeholder="Confirm your password" required>
+                        <input type="password" class="form-control" id="reg-confirm-password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 py-2">
-                        <i class="fas fa-user-plus me-2"></i>Register Now
-                    </button>
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
                     <div class="text-center mt-3">
-                        <p class="text-muted">Already have an account? <a href="#" id="show-login" class="text-primary">Login here</a></p>
+                        <p>Already have an account? <a href="#" id="show-login">Login</a></p>
                     </div>
                 </form>
             </div>
         </div>
 
         <!-- Login Form -->
-        <div class="auth-container fade-in" id="login-form" style="display: none;">
+        <div class="auth-container" id="login-form" style="display: none;">
             <div class="auth-header">
-                <h3><i class="fas fa-hand-holding-usd me-2"></i> Paisayar</h3>
-                <p>Welcome back! Please login</p>
+                <h3><i class="fas fa-money-bill-wave"></i> Paisayar</h3>
+                <p>Login to your account</p>
             </div>
             <div class="auth-body">
                 <form id="login-form-data">
                     <div class="mb-3">
                         <label for="login-email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="login-email" placeholder="Enter your email" required>
+                        <input type="email" class="form-control" id="login-email" required>
                     </div>
                     <div class="mb-3">
                         <label for="login-password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="login-password" placeholder="Enter your password" required>
+                        <input type="password" class="form-control" id="login-password" required>
                     </div>
-                    <div class="mb-3 text-end">
-                        <a href="#" class="text-primary small">Forgot password?</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 py-2">
-                        <i class="fas fa-sign-in-alt me-2"></i>Login
-                    </button>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
                     <div class="text-center mt-3">
-                        <p class="text-muted">Don't have an account? <a href="#" id="show-register" class="text-primary">Register now</a></p>
+                        <p>Don't have an account? <a href="#" id="show-register">Register</a></p>
                     </div>
                 </form>
             </div>
@@ -328,102 +169,87 @@
 
     <!-- Dashboard -->
     <div id="dashboard" style="display: none;">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#"><i class="fas fa-hand-holding-usd me-2"></i> Paisayar</a>
-                <div class="dropdown ms-auto">
-                    <button class="btn btn-link text-white dropdown-toggle d-flex align-items-center" type="button" id="user-dropdown" data-bs-toggle="dropdown">
-                        <img src="https://ui-avatars.com/api/?name=User&background=fff&color=4361ee" alt="Profile" class="rounded-circle me-2" id="navbar-profile-pic" width="35" height="35">
-                        <span id="navbar-username">User</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#" id="profile-dropdown-btn"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" id="logout-dropdown-btn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#"><i class="fas fa-money-bill-wave"></i> Paisayar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <div class="container py-4">
+        <div class="container-fluid mt-4">
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <!-- User Profile Card -->
-                    <div class="card dashboard-card mb-4" id="profile-card">
-                        <div class="card-body text-center">
-                            <img src="https://ui-avatars.com/api/?name=User&background=4361ee&color=fff" alt="Profile" class="profile-pic mb-3" id="dashboard-profile-pic">
-                            <h4 id="dashboard-username">User Name</h4>
-                            <p class="text-muted mb-4" id="dashboard-email">user@example.com</p>
-                            
-                            <div class="d-flex justify-content-center align-items-center mb-3">
-                                <span class="status-badge me-2" id="loan-status-text">Not Applied</span>
-                                <span class="status-badge d-none" id="blacklist-message">Blacklisted</span>
+                    <div class="card dashboard-card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title">Welcome, <span id="user-name"></span></h5>
+                                    <p class="card-text"><small class="text-muted">Member since <span id="member-since"></span></small></p>
+                                </div>
+                                <div class="text-end">
+                                    <p class="loan-status mb-1" id="loan-status-text">Status: Not Applied</p>
+                                    <p id="blacklist-message" style="display: none;" class="loan-status blacklisted mb-0">Your account has been blacklisted</p>
+                                </div>
                             </div>
                             
-                            <div class="progress-container">
+                            <div class="progress-container mt-3">
                                 <div class="progress-bar" id="application-progress" style="width: 0%"></div>
                             </div>
                             
-                            <button class="btn btn-primary btn-lg mt-3" id="get-loan-btn" style="display: none;">
-                                <i class="fas fa-hand-holding-usd me-2"></i> Apply for Loan
-                            </button>
+                            <div class="text-center mt-3">
+                                <button class="btn btn-primary btn-lg" id="get-loan-btn" style="display: none;">Get Loan</button>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Application Status -->
                     <div class="card dashboard-card mb-4" id="application-status" style="display: none;">
-                        <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Application Status</h5>
-                        </div>
                         <div class="card-body">
+                            <h5 class="card-title">Application Status</h5>
                             <div id="status-content">
                                 <!-- Dynamic content will be loaded here -->
                             </div>
                         </div>
                     </div>
 
-                    <!-- Transaction History -->
-                    <div class="card dashboard-card mb-4" id="transaction-history" style="display: none;">
-                        <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-receipt me-2"></i>Transaction History</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="transaction-content">
-                                <!-- Transaction details will be loaded here -->
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- User Details -->
-                    <div class="card dashboard-card mb-4">
-                        <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i>Your Details</h5>
-                        </div>
+                    <div class="card dashboard-card mb-4" id="user-details-card">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted">Full Name</label>
-                                    <div class="fw-bold" id="detail-full-name">-</div>
+                            <h5 class="card-title">Your Details</h5>
+                            <div class="user-details-card mt-3">
+                                <div class="detail-row">
+                                    <div class="detail-label">Full Name:</div>
+                                    <div class="detail-value" id="detail-full-name"></div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted">Email</label>
-                                    <div class="fw-bold" id="detail-email">-</div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Email:</div>
+                                    <div class="detail-value" id="detail-email"></div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted">Phone</label>
-                                    <div class="fw-bold" id="detail-phone">-</div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Phone:</div>
+                                    <div class="detail-value" id="detail-phone"></div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted">Address</label>
-                                    <div class="fw-bold" id="detail-address">-</div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Address:</div>
+                                    <div class="detail-value" id="detail-address"></div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted">Loan Amount</label>
-                                    <div class="fw-bold" id="detail-loan-amount">-</div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Loan Amount:</div>
+                                    <div class="detail-value" id="detail-loan-amount"></div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label text-muted">Application Date</label>
-                                    <div class="fw-bold" id="detail-app-date">-</div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Application Date:</div>
+                                    <div class="detail-value" id="detail-app-date"></div>
                                 </div>
                             </div>
                         </div>
@@ -431,30 +257,21 @@
 
                     <!-- Loan Application Form -->
                     <div class="card dashboard-card mb-4" id="loan-application-form" style="display: none;">
-                        <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Loan Application</h5>
-                        </div>
                         <div class="card-body">
+                            <h5 class="card-title">Apply for Loan</h5>
+                            
                             <ul class="nav nav-tabs mb-4" id="formTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">
-                                        <i class="fas fa-user me-2"></i>Personal
-                                    </button>
+                                    <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">Personal</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="id-tab" data-bs-toggle="tab" data-bs-target="#id-upload" type="button" role="tab" disabled>
-                                        <i class="fas fa-id-card me-2"></i>ID Cards
-                                    </button>
+                                    <button class="nav-link" id="id-tab" data-bs-toggle="tab" data-bs-target="#id-upload" type="button" role="tab" disabled>ID Cards</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="references-tab" data-bs-toggle="tab" data-bs-target="#references" type="button" role="tab" disabled>
-                                        <i class="fas fa-users me-2"></i>References
-                                    </button>
+                                    <button class="nav-link" id="references-tab" data-bs-toggle="tab" data-bs-target="#references" type="button" role="tab" disabled>References</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" disabled>
-                                        <i class="fas fa-money-bill-wave me-2"></i>Payment
-                                    </button>
+                                    <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" disabled>Payment</button>
                                 </li>
                             </ul>
                             
@@ -479,123 +296,84 @@
                                             <textarea class="form-control" id="address" rows="3" required></textarea>
                                         </div>
                                         <div class="text-end">
-                                            <button type="button" class="btn btn-primary next-section" data-next="id-tab">
-                                                Next <i class="fas fa-arrow-right ms-2"></i>
-                                            </button>
+                                            <button type="button" class="btn btn-primary next-section" data-next="id-tab">Next</button>
                                         </div>
                                     </div>
                                     
                                     <!-- ID Upload Section -->
                                     <div class="tab-pane fade" id="id-upload" role="tabpanel">
-                                        <div class="mb-4">
-                                            <label class="form-label">CNIC/NICOP Front</label>
-                                            <div class="id-preview" id="id-front-preview">
-                                                <i class="fas fa-id-card fa-3x text-muted mb-2"></i>
-                                                <p class="text-muted">Upload front side of your ID card</p>
-                                            </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">ID Card Front</label>
                                             <input type="file" class="form-control" id="id-front" accept="image/*" required>
+                                            <div class="mt-2" id="id-front-preview"></div>
                                         </div>
                                         
-                                        <div class="mb-4">
-                                            <label class="form-label">CNIC/NICOP Back</label>
-                                            <div class="id-preview" id="id-back-preview">
-                                                <i class="fas fa-id-card fa-3x text-muted mb-2"></i>
-                                                <p class="text-muted">Upload back side of your ID card</p>
-                                            </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">ID Card Back</label>
                                             <input type="file" class="form-control" id="id-back" accept="image/*" required>
+                                            <div class="mt-2" id="id-back-preview"></div>
                                         </div>
                                         <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-outline-secondary prev-section" data-prev="personal-tab">
-                                                <i class="fas fa-arrow-left me-2"></i>Previous
-                                            </button>
-                                            <button type="button" class="btn btn-primary next-section" data-next="references-tab">
-                                                Next <i class="fas fa-arrow-right ms-2"></i>
-                                            </button>
+                                            <button type="button" class="btn btn-secondary prev-section" data-prev="personal-tab">Previous</button>
+                                            <button type="button" class="btn btn-primary next-section" data-next="references-tab">Next</button>
                                         </div>
                                     </div>
                                     
                                     <!-- References Section -->
                                     <div class="tab-pane fade" id="references" role="tabpanel">
-                                        <h6 class="mb-4"><i class="fas fa-users me-2"></i>References</h6>
-                                        
-                                        <div class="reference-card">
-                                            <h6>Reference 1</h6>
-                                            <div class="row">
-                                                <div class="col-md-6 mb-3">
-                                                    <label for="ref1-name" class="form-label">Name</label>
-                                                    <input type="text" class="form-control" id="ref1-name" required>
-                                                </div>
-                                                <div class="col-md-6 mb-3">
-                                                    <label for="ref1-phone" class="form-label">Phone</label>
-                                                    <input type="tel" class="form-control" id="ref1-phone" required>
-                                                </div>
+                                        <h6>References</h6>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="ref1-name" class="form-label">Reference 1 Name</label>
+                                                <input type="text" class="form-control" id="ref1-name" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="ref1-phone" class="form-label">Reference 1 Phone</label>
+                                                <input type="tel" class="form-control" id="ref1-phone" required>
                                             </div>
                                         </div>
                                         
-                                        <div class="reference-card">
-                                            <h6>Reference 2</h6>
-                                            <div class="row">
-                                                <div class="col-md-6 mb-3">
-                                                    <label for="ref2-name" class="form-label">Name</label>
-                                                    <input type="text" class="form-control" id="ref2-name" required>
-                                                </div>
-                                                <div class="col-md-6 mb-3">
-                                                    <label for="ref2-phone" class="form-label">Phone</label>
-                                                    <input type="tel" class="form-control" id="ref2-phone" required>
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="ref2-name" class="form-label">Reference 2 Name</label>
+                                                <input type="text" class="form-control" id="ref2-name" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="ref2-phone" class="form-label">Reference 2 Phone</label>
+                                                <input type="tel" class="form-control" id="ref2-phone" required>
                                             </div>
                                         </div>
                                         
-                                        <div class="reference-card">
-                                            <h6>Reference 3</h6>
-                                            <div class="row">
-                                                <div class="col-md-6 mb-3">
-                                                    <label for="ref3-name" class="form-label">Name</label>
-                                                    <input type="text" class="form-control" id="ref3-name" required>
-                                                </div>
-                                                <div class="col-md-6 mb-3">
-                                                    <label for="ref3-phone" class="form-label">Phone</label>
-                                                    <input type="tel" class="form-control" id="ref3-phone" required>
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="ref3-name" class="form-label">Reference 3 Name</label>
+                                                <input type="text" class="form-control" id="ref3-name" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="ref3-phone" class="form-label">Reference 3 Phone</label>
+                                                <input type="tel" class="form-control" id="ref3-phone" required>
                                             </div>
                                         </div>
-                                        
                                         <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-outline-secondary prev-section" data-prev="id-tab">
-                                                <i class="fas fa-arrow-left me-2"></i>Previous
-                                            </button>
-                                            <button type="button" class="btn btn-primary next-section" data-next="payment-tab">
-                                                Next <i class="fas fa-arrow-right ms-2"></i>
-                                            </button>
+                                            <button type="button" class="btn btn-secondary prev-section" data-prev="id-tab">Previous</button>
+                                            <button type="button" class="btn btn-primary next-section" data-next="payment-tab">Next</button>
                                         </div>
                                     </div>
                                     
                                     <!-- Payment Section -->
                                     <div class="tab-pane fade" id="payment" role="tabpanel">
-                                        <div class="alert alert-primary">
-                                            <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Application Fee</h5>
-                                            <p>To process your loan application, a non-refundable fee of <strong>Rs. 5,000</strong> is required.</p>
-                                            <hr>
-                                            <p class="mb-1"><strong>Payment Instructions:</strong></p>
-                                            <ol>
-                                                <li>Send Rs. 5,000 to JazzCash: <strong>03250416566</strong></li>
-                                                <li>After payment, enter the transaction ID below</li>
-                                                <li>Submit your application</li>
-                                            </ol>
+                                        <div class="alert alert-info">
+                                            <p><strong>Loan Fee:</strong> Rs. 5,000</p>
+                                            <p>Please send the fee to JazzCash number: <strong>03250416566</strong></p>
+                                            <p>After payment, enter the transaction ID below:</p>
+                                            <div class="mb-3">
+                                                <label for="trx-id" class="form-label">Transaction ID</label>
+                                                <input type="text" class="form-control" id="trx-id" required>
+                                            </div>
                                         </div>
-                                        
-                                        <div class="mb-4">
-                                            <label for="trx-id" class="form-label">Transaction ID</label>
-                                            <input type="text" class="form-control" id="trx-id" placeholder="Enter your JazzCash transaction ID" required>
-                                        </div>
-                                        
                                         <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-outline-secondary prev-section" data-prev="references-tab">
-                                                <i class="fas fa-arrow-left me-2"></i>Previous
-                                            </button>
-                                            <button type="submit" class="btn btn-success">
-                                                <i class="fas fa-paper-plane me-2"></i>Submit Application
-                                            </button>
+                                            <button type="button" class="btn btn-secondary prev-section" data-prev="references-tab">Previous</button>
+                                            <button type="submit" class="btn btn-success">Submit Application</button>
                                         </div>
                                     </div>
                                 </div>
@@ -643,23 +421,9 @@
         const showRegister = document.getElementById('show-register');
         const dashboard = document.getElementById('dashboard');
         const authScreens = document.getElementById('auth-screens');
-        
-        // Profile picture elements
-        const regProfilePic = document.getElementById('reg-profile-pic');
-        const regProfileUpload = document.getElementById('reg-profile-upload');
-        const regUploadBtn = document.getElementById('reg-upload-btn');
-        const navbarProfilePic = document.getElementById('navbar-profile-pic');
-        const dashboardProfilePic = document.getElementById('dashboard-profile-pic');
-        
-        // User dropdown elements
-        const userDropdown = document.getElementById('user-dropdown');
-        const navbarUsername = document.getElementById('navbar-username');
-        const profileDropdownBtn = document.getElementById('profile-dropdown-btn');
-        const logoutDropdownBtn = document.getElementById('logout-dropdown-btn');
-        
-        // Dashboard elements
-        const dashboardUsername = document.getElementById('dashboard-username');
-        const dashboardEmail = document.getElementById('dashboard-email');
+        const logoutBtn = document.getElementById('logout-btn');
+        const userName = document.getElementById('user-name');
+        const memberSince = document.getElementById('member-since');
         const getLoanBtn = document.getElementById('get-loan-btn');
         const loanApplicationForm = document.getElementById('loan-application-form');
         const loanForm = document.getElementById('loan-form');
@@ -668,8 +432,7 @@
         const loanStatusText = document.getElementById('loan-status-text');
         const blacklistMessage = document.getElementById('blacklist-message');
         const applicationProgress = document.getElementById('application-progress');
-        const transactionHistory = document.getElementById('transaction-history');
-        const transactionContent = document.getElementById('transaction-content');
+        const userDetailsCard = document.getElementById('user-details-card');
         
         // User detail elements
         const detailFullName = document.getElementById('detail-full-name');
@@ -678,10 +441,6 @@
         const detailAddress = document.getElementById('detail-address');
         const detailLoanAmount = document.getElementById('detail-loan-amount');
         const detailAppDate = document.getElementById('detail-app-date');
-        
-        // Current user data
-        let currentUser = null;
-        let profilePictureUrl = 'https://ui-avatars.com/api/?name=User&background=4361ee&color=fff';
         
         // Show login/register forms
         showLogin.addEventListener('click', (e) => {
@@ -696,22 +455,6 @@
             registrationForm.style.display = 'block';
         });
         
-        // Profile picture upload
-        regUploadBtn.addEventListener('click', () => {
-            regProfileUpload.click();
-        });
-        
-        regProfileUpload.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    regProfilePic.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        
         // Register new user
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -721,73 +464,36 @@
             const phone = document.getElementById('reg-phone').value;
             const password = document.getElementById('reg-password').value;
             const confirmPassword = document.getElementById('reg-confirm-password').value;
-            const profilePic = regProfileUpload.files[0];
             
             if (password !== confirmPassword) {
                 alert('Passwords do not match!');
                 return;
             }
             
-            // Show loading state
-            const submitBtn = registerForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Registering...';
-            submitBtn.disabled = true;
-            
-            // First create the user with email/password
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
                     
-                    // Upload profile picture if selected
-                    if (profilePic) {
-                        const storageRef = storage.ref();
-                        const profilePicRef = storageRef.child(`profile_pictures/${user.uid}_${Date.now()}`);
-                        
-                        return profilePicRef.put(profilePic)
-                            .then(() => profilePicRef.getDownloadURL())
-                            .then((url) => {
-                                // Save user data with profile picture URL
-                                return db.collection('users').doc(user.uid).set({
-                                    name: name,
-                                    email: email,
-                                    phone: phone,
-                                    profilePicture: url,
-                                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                                    isBlacklisted: false,
-                                    loanApproved: false,
-                                    loanApplied: false,
-                                    loanAmount: 0
-                                });
-                            });
-                    } else {
-                        // Save user data without profile picture
-                        return db.collection('users').doc(user.uid).set({
-                            name: name,
-                            email: email,
-                            phone: phone,
-                            profilePicture: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=4361ee&color=fff',
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            isBlacklisted: false,
-                            loanApproved: false,
-                            loanApplied: false,
-                            loanAmount: 0
-                        });
-                    }
+                    // Save additional user data to Firestore
+                    return db.collection('users').doc(user.uid).set({
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        isBlacklisted: false,
+                        loanApproved: false,
+                        loanApplied: false,
+                        loanAmount: 0
+                    });
                 })
                 .then(() => {
                     alert('Registration successful! Please login.');
                     registrationForm.style.display = 'none';
                     loginForm.style.display = 'block';
                     registerForm.reset();
-                    regProfilePic.src = 'https://ui-avatars.com/api/?name=New+User&background=4361ee&color=fff';
                 })
                 .catch((error) => {
                     alert('Error: ' + error.message);
-                })
-                .finally(() => {
-                    submitBtn.innerHTML = originalBtnText;
-                    submitBtn.disabled = false;
                 });
         });
         
@@ -798,212 +504,53 @@
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             
-            // Show loading state
-            const submitBtn = loginFormData.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Logging in...';
-            submitBtn.disabled = true;
-            
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    currentUser = user;
-                    
-                    // Get user data from Firestore
-                    return db.collection('users').doc(user.uid).get();
-                })
-                .then((doc) => {
-                    if (doc.exists) {
-                        const userData = doc.data();
-                        
-                        // Update profile picture
-                        if (userData.profilePicture) {
-                            profilePictureUrl = userData.profilePicture;
-                            navbarProfilePic.src = profilePictureUrl;
-                            dashboardProfilePic.src = profilePictureUrl;
-                        } else {
-                            // Generate avatar if no profile picture
-                            const avatarUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(userData.name) + '&background=4361ee&color=fff';
-                            navbarProfilePic.src = avatarUrl;
-                            dashboardProfilePic.src = avatarUrl;
-                        }
-                        
-                        // Update user info
-                        navbarUsername.textContent = userData.name;
-                        dashboardUsername.textContent = userData.name;
-                        dashboardEmail.textContent = userData.email;
-                        
-                        // Update user details
-                        detailFullName.textContent = userData.name || '-';
-                        detailEmail.textContent = userData.email || '-';
-                        detailPhone.textContent = userData.phone || '-';
-                        detailAddress.textContent = userData.address || '-';
-                        detailLoanAmount.textContent = userData.loanAmount ? `Rs. ${userData.loanAmount.toLocaleString()}` : '-';
-                        
-                        if (userData.loanAppliedAt) {
-                            const appDate = userData.loanAppliedAt.toDate();
-                            detailAppDate.textContent = appDate.toLocaleDateString() + ' ' + appDate.toLocaleTimeString();
-                        } else {
-                            detailAppDate.textContent = '-';
-                        }
-                        
-                        // Check loan status
-                        if (userData.loanApplied) {
-                            if (userData.loanApproved) {
-                                loanStatusText.innerHTML = '<span class="status-approved">Approved</span>';
-                                getLoanBtn.style.display = 'none';
-                                applicationStatus.style.display = 'block';
-                                statusContent.innerHTML = `
-                                    <div class="alert alert-success">
-                                        <h5><i class="fas fa-check-circle me-2"></i> Loan Approved</h5>
-                                        <p>Congratulations! Your loan of <strong>Rs. ${userData.loanAmount.toLocaleString()}</strong> has been approved.</p>
-                                    </div>
-                                `;
-                            } else if (userData.isBlacklisted) {
-                                loanStatusText.innerHTML = '<span class="status-rejected">Blacklisted</span>';
-                                blacklistMessage.style.display = 'block';
-                                getLoanBtn.style.display = 'none';
-                                applicationStatus.style.display = 'block';
-                                statusContent.innerHTML = `
-                                    <div class="alert alert-danger">
-                                        <h5><i class="fas fa-times-circle me-2"></i> Application Rejected</h5>
-                                        <p>Your loan application has been rejected and your account has been blacklisted.</p>
-                                    </div>
-                                `;
-                            } else {
-                                loanStatusText.innerHTML = '<span class="status-applied">Applied</span>';
-                                getLoanBtn.style.display = 'none';
-                                applicationStatus.style.display = 'block';
-                                
-                                // Show countdown to blacklist (24 hours)
-                                showCountdown(userData.loanAppliedAt.toDate());
-                            }
-                        } else {
-                            loanStatusText.textContent = 'Not Applied';
-                            getLoanBtn.style.display = 'block';
-                            applicationStatus.style.display = 'none';
-                        }
-                        
-                        // Load transaction history if application exists
-                        if (userData.loanApplied) {
-                            loadTransactionHistory(userData.uid);
-                        }
-                        
-                        // Show dashboard
-                        authScreens.style.display = 'none';
-                        dashboard.style.display = 'block';
-                    }
+                    return user;
                 })
                 .catch((error) => {
                     alert('Error: ' + error.message);
-                })
-                .finally(() => {
-                    submitBtn.innerHTML = originalBtnText;
-                    submitBtn.disabled = false;
                 });
         });
-        
-        // Load transaction history
-        function loadTransactionHistory(userId) {
-            db.collection('loanApplications')
-                .where('userId', '==', userId)
-                .orderBy('appliedAt', 'desc')
-                .limit(1)
-                .get()
-                .then((querySnapshot) => {
-                    if (!querySnapshot.empty) {
-                        const application = querySnapshot.docs[0].data();
-                        transactionHistory.style.display = 'block';
-                        
-                        transactionContent.innerHTML = `
-                            <div class="transaction-card">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p class="text-muted mb-1">Transaction ID</p>
-                                        <p class="fw-bold">${application.trxId || 'N/A'}</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="text-muted mb-1">Amount</p>
-                                        <p class="fw-bold">Rs. ${application.feeAmount.toLocaleString()}</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="text-muted mb-1">Payment Method</p>
-                                        <p class="fw-bold">JazzCash (${application.jazzCashNumber})</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="text-muted mb-1">Date</p>
-                                        <p class="fw-bold">${application.appliedAt.toDate().toLocaleString()}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error loading transaction history:', error);
-                });
-        }
         
         // Logout user
-        logoutDropdownBtn.addEventListener('click', (e) => {
+        logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            logoutUser();
-        });
-        
-        function logoutUser() {
+            
             auth.signOut()
                 .then(() => {
-                    currentUser = null;
                     dashboard.style.display = 'none';
                     authScreens.style.display = 'block';
                     loginForm.style.display = 'none';
                     registrationForm.style.display = 'block';
                     loanApplicationForm.style.display = 'none';
                     applicationStatus.style.display = 'none';
-                    transactionHistory.style.display = 'none';
-                    blacklistMessage.style.display = 'none';
-                    getLoanBtn.style.display = 'none';
-                    
-                    // Reset forms
-                    loginFormData.reset();
-                    registerForm.reset();
-                    loanForm.reset();
-                    
-                    // Reset profile pictures
-                    navbarProfilePic.src = 'https://ui-avatars.com/api/?name=User&background=fff&color=4361ee';
-                    dashboardProfilePic.src = 'https://ui-avatars.com/api/?name=User&background=4361ee&color=fff';
                 })
                 .catch((error) => {
                     alert('Error signing out: ' + error.message);
                 });
-        }
-        
-        // Show profile
-        profileDropdownBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            // You can implement a profile view here
-            alert('Profile view will be implemented here');
         });
         
         // Show loan application form
         getLoanBtn.addEventListener('click', () => {
             loanApplicationForm.style.display = 'block';
             applicationStatus.style.display = 'none';
-            transactionHistory.style.display = 'none';
             
             // Pre-fill user data
-            if (currentUser) {
-                db.collection('users').doc(currentUser.uid).get()
-                    .then((doc) => {
-                        if (doc.exists) {
-                            const userData = doc.data();
-                            document.getElementById('full-name').value = userData.name || '';
-                            document.getElementById('email').value = userData.email || '';
-                            document.getElementById('phone-number').value = userData.phone || '';
-                            document.getElementById('address').value = userData.address || '';
-                        }
-                    });
-            }
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    db.collection('users').doc(user.uid).get()
+                        .then((doc) => {
+                            if (doc.exists) {
+                                const userData = doc.data();
+                                document.getElementById('full-name').value = userData.name;
+                                document.getElementById('email').value = userData.email;
+                                document.getElementById('phone-number').value = userData.phone;
+                            }
+                        });
+                }
+            });
         });
         
         // Form navigation
@@ -1082,10 +629,7 @@
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     document.getElementById('id-front-preview').innerHTML = `
-                        <img src="${event.target.result}" class="img-fluid rounded">
-                        <button class="btn btn-sm btn-outline-danger mt-2" onclick="document.getElementById('id-front').value='';this.parentElement.innerHTML='<i class=\'fas fa-id-card fa-3x text-muted mb-2\'></i><p class=\'text-muted\'>Upload front side of your ID card</p>'">
-                            <i class="fas fa-times me-1"></i>Remove
-                        </button>
+                        <img src="${event.target.result}" class="img-thumbnail" style="max-height: 150px;">
                     `;
                 };
                 reader.readAsDataURL(file);
@@ -1098,10 +642,7 @@
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     document.getElementById('id-back-preview').innerHTML = `
-                        <img src="${event.target.result}" class="img-fluid rounded">
-                        <button class="btn btn-sm btn-outline-danger mt-2" onclick="document.getElementById('id-back').value='';this.parentElement.innerHTML='<i class=\'fas fa-id-card fa-3x text-muted mb-2\'></i><p class=\'text-muted\'>Upload back side of your ID card</p>'">
-                            <i class="fas fa-times me-1"></i>Remove
-                        </button>
+                        <img src="${event.target.result}" class="img-thumbnail" style="max-height: 150px;">
                     `;
                 };
                 reader.readAsDataURL(file);
@@ -1112,7 +653,7 @@
         loanForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            const userId = currentUser.uid;
+            const userId = auth.currentUser.uid;
             const fullName = document.getElementById('full-name').value;
             const phoneNumber = document.getElementById('phone-number').value;
             const email = document.getElementById('email').value;
@@ -1128,10 +669,14 @@
             const trxId = document.getElementById('trx-id').value;
             
             // Show loading state
-            const submitBtn = loanForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Submitting...';
-            submitBtn.disabled = true;
+            statusContent.innerHTML = `
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Submitting your application...</p>
+                </div>
+            `;
             
             // Upload ID images to storage
             const storageRef = storage.ref();
@@ -1184,56 +729,26 @@
                 // Hide form and show status
                 loanApplicationForm.style.display = 'none';
                 applicationStatus.style.display = 'block';
-                transactionHistory.style.display = 'block';
                 getLoanBtn.style.display = 'none';
-                loanStatusText.innerHTML = '<span class="status-applied">Applied</span>';
                 
-                // Show immediate status
-                statusContent.innerHTML = `
-                    <div class="alert alert-info">
-                        <h5><i class="fas fa-check-circle me-2"></i> Application Submitted</h5>
-                        <p>Your loan application for <strong>Rs. 50,000</strong> has been successfully submitted.</p>
-                        <p>Transaction ID: <strong>${trxId}</strong></p>
-                        <p>We will process your application within 24 hours.</p>
-                    </div>
-                `;
-                
-                // Update user details
-                detailAddress.textContent = address;
-                detailLoanAmount.textContent = 'Rs. 50,000';
-                detailAppDate.textContent = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString();
-                
-                // Show transaction history
-                loadTransactionHistory(userId);
+                // Update UI
+                updateUserDashboard(userId);
                 
                 // Start countdown to blacklist (24 hours)
                 showCountdown(new Date());
                 
                 // Reset form
                 loanForm.reset();
-                document.getElementById('id-front-preview').innerHTML = '<i class="fas fa-id-card fa-3x text-muted mb-2"></i><p class="text-muted">Upload front side of your ID card</p>';
-                document.getElementById('id-back-preview').innerHTML = '<i class="fas fa-id-card fa-3x text-muted mb-2"></i><p class="text-muted">Upload back side of your ID card</p>';
-                
-                // Reset tabs
-                document.getElementById('personal-tab').click();
-                document.getElementById('id-tab').setAttribute('disabled', 'true');
-                document.getElementById('references-tab').setAttribute('disabled', 'true');
-                document.getElementById('payment-tab').setAttribute('disabled', 'true');
+                document.getElementById('id-front-preview').innerHTML = '';
+                document.getElementById('id-back-preview').innerHTML = '';
             })
             .catch((error) => {
                 statusContent.innerHTML = `
                     <div class="alert alert-danger">
-                        <h5><i class="fas fa-exclamation-circle me-2"></i>Error</h5>
-                        <p>Error submitting application: ${error.message}</p>
-                        <button class="btn btn-primary mt-2" onclick="window.location.reload()">
-                            <i class="fas fa-sync-alt me-2"></i>Try Again
-                        </button>
+                        Error submitting application: ${error.message}
                     </div>
+                    <button class="btn btn-primary mt-2" onclick="window.location.reload()">Try Again</button>
                 `;
-            })
-            .finally(() => {
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
             });
         });
         
@@ -1254,19 +769,20 @@
                 if (diff <= 0) {
                     statusContent.innerHTML = `
                         <div class="alert alert-warning">
-                            <h5><i class="fas fa-exclamation-triangle me-2"></i> Processing Complete</h5>
+                            <h5><i class="fas fa-exclamation-triangle"></i> Processing Complete</h5>
                             <p>Your application has been processed. Unfortunately, your loan was not approved and your account has been blacklisted.</p>
                         </div>
                     `;
                     
-                    loanStatusText.innerHTML = '<span class="status-rejected">Blacklisted</span>';
-                    blacklistMessage.style.display = 'block';
+                    loanStatusText.innerHTML = 'Status: <span class="blacklisted">Blacklisted</span>';
                     
                     // Update user status to blacklisted
-                    const userId = currentUser.uid;
+                    const userId = auth.currentUser.uid;
                     db.collection('users').doc(userId).update({
                         isBlacklisted: true,
                         loanApproved: false
+                    }).then(() => {
+                        blacklistMessage.style.display = 'block';
                     });
                     
                     return;
@@ -1278,22 +794,9 @@
                 
                 statusContent.innerHTML = `
                     <div class="alert alert-info">
-                        <h5><i class="fas fa-clock me-2"></i> Application Processing</h5>
-                        <p>Your application for <strong>Rs. 50,000</strong> loan is being processed.</p>
-                        <div class="d-flex align-items-center mt-3">
-                            <div class="me-3">
-                                <div class="fs-2 fw-bold">${hours}</div>
-                                <div class="text-muted small">Hours</div>
-                            </div>
-                            <div class="me-3">
-                                <div class="fs-2 fw-bold">${minutes}</div>
-                                <div class="text-muted small">Minutes</div>
-                            </div>
-                            <div>
-                                <div class="fs-2 fw-bold">${seconds}</div>
-                                <div class="text-muted small">Seconds</div>
-                            </div>
-                        </div>
+                        <h5><i class="fas fa-clock"></i> Application Processing</h5>
+                        <p>Your application for Rs. 50,000 loan is being processed.</p>
+                        <p>Status will be updated in: <strong>${hours}h ${minutes}m ${seconds}s</strong></p>
                     </div>
                 `;
                 
@@ -1302,6 +805,115 @@
             
             updateCountdown();
         }
+        
+        // Update user dashboard
+        function updateUserDashboard(userId) {
+            db.collection('users').doc(userId).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        
+                        // Update user details
+                        detailFullName.textContent = userData.name;
+                        detailEmail.textContent = userData.email;
+                        detailPhone.textContent = userData.phone;
+                        detailAddress.textContent = userData.address || 'Not provided';
+                        detailLoanAmount.textContent = userData.loanAmount ? `Rs. ${userData.loanAmount.toLocaleString()}` : 'Not applied';
+                        
+                        if (userData.loanAppliedAt) {
+                            const appDate = userData.loanAppliedAt.toDate();
+                            detailAppDate.textContent = appDate.toLocaleDateString() + ' ' + appDate.toLocaleTimeString();
+                        } else {
+                            detailAppDate.textContent = 'Not applied';
+                        }
+                        
+                        if (userData.createdAt) {
+                            const createdDate = userData.createdAt.toDate();
+                            memberSince.textContent = createdDate.toLocaleDateString();
+                        }
+                        
+                        // Update loan status
+                        if (userData.loanApplied) {
+                            if (userData.loanApproved) {
+                                loanStatusText.innerHTML = 'Status: <span class="approved">Approved</span>';
+                                getLoanBtn.style.display = 'none';
+                            } else if (userData.isBlacklisted) {
+                                loanStatusText.innerHTML = 'Status: <span class="blacklisted">Blacklisted</span>';
+                                getLoanBtn.style.display = 'none';
+                            } else {
+                                loanStatusText.innerHTML = 'Status: <span class="processing">Processing</span>';
+                                getLoanBtn.style.display = 'none';
+                            }
+                        } else {
+                            loanStatusText.innerHTML = 'Status: <span class="not-approved">Not Applied</span>';
+                            getLoanBtn.style.display = 'block';
+                        }
+                    }
+                });
+        }
+        
+        // Check auth state on page load
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in
+                authScreens.style.display = 'none';
+                dashboard.style.display = 'block';
+                
+                // Get user data and update dashboard
+                updateUserDashboard(user.uid);
+                
+                // Show application status if processing
+                db.collection('users').doc(user.uid).get()
+                    .then((doc) => {
+                        if (doc.exists) {
+                            const userData = doc.data();
+                            
+                            if (userData.loanApplied && !userData.loanApproved && !userData.isBlacklisted) {
+                                applicationStatus.style.display = 'block';
+                                getLoanBtn.style.display = 'none';
+                                
+                                // Get application time
+                                db.collection('loanApplications')
+                                    .where('userId', '==', user.uid)
+                                    .orderBy('appliedAt', 'desc')
+                                    .limit(1)
+                                    .get()
+                                    .then((querySnapshot) => {
+                                        if (!querySnapshot.empty) {
+                                            const appData = querySnapshot.docs[0].data();
+                                            showCountdown(appData.appliedAt.toDate());
+                                        }
+                                    });
+                            }
+                            
+                            // Check if user is blacklisted
+                            if (userData.isBlacklisted) {
+                                blacklistMessage.style.display = 'block';
+                                statusContent.innerHTML = `
+                                    <div class="alert alert-warning">
+                                        <h5><i class="fas fa-exclamation-triangle"></i> Account Blacklisted</h5>
+                                        <p>Your account has been blacklisted and you cannot apply for new loans.</p>
+                                    </div>
+                                `;
+                            }
+                        }
+                    });
+            } else {
+                // User is signed out
+                dashboard.style.display = 'none';
+                authScreens.style.display = 'block';
+                loginForm.style.display = 'none';
+                registrationForm.style.display = 'block';
+            }
+        });
+        
+        // Enable Bootstrap tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
     </script>
 </body>
 </html>
